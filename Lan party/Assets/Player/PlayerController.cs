@@ -6,16 +6,18 @@ using Unity.Netcode;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using TMPro;
 public class PlayerController : NetworkBehaviour
 {
-
-    public Text hintText;
+    //devo passarglielo da codice perchè è un prefab
+    public TMP_Text classifica;
     private int lead = 0;
     private NetworkVariable<int> punteggio = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] private float speed;
     // Start is called before the first frame update
     void Start()
     {
+        classifica = GameObject.Find("classifica").GetComponent<TMP_Text>();
         speed = 5000;
         //GetLocalIPAddress();
         punteggio.OnValueChanged += OnMyNetworkVariableChanged;
@@ -44,9 +46,14 @@ public class PlayerController : NetworkBehaviour
             Debug.Log($"Server Log - Client {OwnerClientId}: myNetworkVariable changed from {oldValue} to {newValue}");
         }
         //TODO modificare la classifica su tutti i client a seconda del punteggio
-        //if(lead<newValue)
-        //    hintText.text = OwnerClientId +" : "+newValue;
+        if(lead < newValue)
+            classifica.text = OwnerClientId +" : "+newValue;
     }
+
+    //private void updateLeaderboard(OwnerClientId,newValue){
+    //    if(lead<newValue)
+    //        hintText.text = OwnerClientId +" : "+newValue;
+    //}
 
     //public string GetLocalIPAddress()
     //{
