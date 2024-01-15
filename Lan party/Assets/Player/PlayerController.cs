@@ -7,11 +7,12 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using TMPro;
+using System;
 public class PlayerController : NetworkBehaviour
 {
     //devo passarglielo da codice perchè è un prefab
     public TMP_Text classifica;
-    private int lead = 0;
+    
     private NetworkVariable<int> punteggio = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] private float speed;
     // Start is called before the first frame update
@@ -46,8 +47,17 @@ public class PlayerController : NetworkBehaviour
             Debug.Log($"Server Log - Client {OwnerClientId}: myNetworkVariable changed from {oldValue} to {newValue}");
         }
         //TODO modificare la classifica su tutti i client a seconda del punteggio
-        if(lead < newValue)
-            classifica.text = OwnerClientId +" : "+newValue;
+        //if(){
+        //    classifica.text = OwnerClientId +" : "+newValue;
+        //}
+        try{
+        if(classifica.text.Equals("Classifica") || Int32.Parse(classifica.text.Split(" : ")[1]) < newValue){
+            classifica.text = OwnerClientId + " : " + newValue;
+            }
+        }
+        catch(FormatException){
+            Debug.Log("not sium");
+        }
     }
 
     //private void updateLeaderboard(OwnerClientId,newValue){
