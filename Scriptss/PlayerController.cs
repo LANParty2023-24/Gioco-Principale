@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Vertical", movement.x);
         animator.SetFloat("Horizontal", movement.y);
 
-        this.transform.position = new Vector3(Mathf.Clamp(this.transform.position.x, -8.7f, 8.7f), Mathf.Clamp(this.transform.position.y, -4.5f, 3.7f), 0);
+        // this.transform.position = new Vector3(Mathf.Clamp(this.transform.position.x, -8.7f, 8.7f), Mathf.Clamp(this.transform.position.y, -4.5f, 3.7f), 0);
+        this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y);
     }
 
     void FixedUpdate()
